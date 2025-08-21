@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebDoc - Your Health Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to WebDoc</h1>
+        <p>Your personalized health guide!</p>
+        <h2>Your Health, Our Mission</h2>
+        <button onclick="startInput()">Let's Start</button>
+        <a href="login and rigester.html" class="login-btn" style="display:inline-block;margin:10px 0;padding:8px 16px;background:#2196F3;color:#fff;text-decoration:none;border-radius:4px;">Login / Register</a>
+
+        <div id="inputSection" style="display: none;">
+            <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZXlhd3JkM2RrMnVzZ3Nkb242emZiY215enByNHVpeGVzanFvcDNxcCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/M9ZMQFPANNm0b9uBhc/giphy.gif" alt="Health GIF" class="gif">
+
+            <form id="healthForm">
+                <h3>Basic Information</h3>
+                <label>Name:</label>
+                <input type="text" id="name" required>
+                <div id="nameError" class="error"></div>
+
+                <label>Age:</label>
+                <input type="number" id="age" min="1" max="100" required>
+                <div id="ageError" class="error"></div>
+
+                <label>Weight (kg):</label>
+                <input type="number" id="weight" min="10" max="250" required>
+                <div id="weightError" class="error"></div>
+
+                <label>Height (cm):</label>
+                <input type="number" id="height" min="20" max="250" required>
+                <div id="heightError" class="error"></div>
+
+                <label>Gender:</label>
+                <select id="gender" required>
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option> 
+                    <option value="female">Female</option>
+                </select>
+                <div id="genderError" class="error"></div>
+
+                <h3>Let's Have Some Meal</h3>
+                <label>Breakfast Time:</label>
+                <input type="time" id="breakfastTime" required>
+                <div id="breakfastTimeError" class="error"></div>
+
+                <label>Lunch Time:</label>
+                <input type="time" id="lunchTime" required>
+                <div id="lunchTimeError" class="error"></div>
+
+                <label>Dinner Time:</label>
+                <input type="time" id="dinnerTime" required>
+                <div id="dinnerTimeError" class="error"></div>
+
+                <h4>Food Choices:</h4>
+                <div class="food-options">
+                    <label><input type="checkbox" value="rice"> Rice (White rice)</label>
+                    <select id="riceServings">
+                        <option value="3">2-4 servings/week</option>
+                        <option value="7">4-10 servings/week</option>
+                        <option value="10"><10 servings/week</option>
+                    </select>
+                
+                    <label><input type="checkbox" value="meat"> Meat</label>
+                    <select id="meatServings">
+                        <option value="3">2-4 servings/week</option>
+                        <option value="7">4-10 servings/week</option>
+                        <option value="10"><10 servings/week</option>
+                    </select>
+                
+                    <label><input type="checkbox" value="flour"> Flour Items (Ragi, Aata, etc.)</label>
+                    <select id="flourServings">
+                        <option value="3">2-4 servings/week</option>
+                        <option value="7">4-10 servings/week</option>
+                        <option value="10"><10 servings/week</option>
+                    </select>
+                
+                    <label><input type="checkbox" value="fastfood"> Fast Food</label>
+                    <select id="fastfoodServings">
+                        <option value="3">2-4 servings/week</option>
+                        <option value="7">4-10 servings/week</option>
+                        <option value="10"><10 servings/week</option>
+                    </select>
+                
+                    <label><input type="checkbox" value="fried"> Fried Items (Chips, Chicken Fries, etc.)</label>
+                    <select id="friedServings">
+                        <option value="3">2-4 servings/week</option>
+                        <option value="7">4-10 servings/week</option>
+                        <option value="10"><10 servings/week</option>
+                    </select>
+                
+                    <label><input type="checkbox" value="fruits"> Fruits</label>
+                    <select id="fruitsServings">
+                        <option value="3">2-4 servings/week</option>
+                        <option value="7">4-10 servings/week</option>
+                        <option value="10"><10 servings/week</option>
+                    </select>
+                
+                    <label><input type="checkbox" value="vegetables"> Vegetables</label>
+                    <select id="vegetablesServings">
+                        <option value="3">2-4 servings/week</option>
+                        <option value="7">4-10 servings/week</option>
+                        <option value="10"><10 servings/week</option>
+                    </select>
+                
+                    <label><input type="checkbox" value="nuts"> Nuts & Millets</label>
+                    <select id="nutsServings">
+                        <option value="3">2-4 servings/week</option>
+                        <option value="7">4-10 servings/week</option>
+                        <option value="10"><10 servings/week</option>
+                    </select>
+                
+                    <label><input type="checkbox" value="sugary"> Sugary Foods (Cake, Pastries, Sugar Candy)</label>
+                    <select id="sugaryServings">
+                        <option value="3">2-4 servings/week</option>
+                        <option value="7">4-10 servings/week</option>
+                        <option value="10"><10 servings/week</option>
+                    </select>
+                
+                    <label><input type="checkbox" value="seafood"> Seafood</label>
+                    <select id="seafoodServings">
+                        <option value="3">2-4 servings/week</option>
+                        <option value="7">4-10 servings/week</option>
+                        <option value="10"><10 servings/week</option>
+                    </select>
+                
+                    <label><input type="checkbox" value="dairy"> Dairy Products (Milk-based)</label>
+                    <select id="dairyServings">
+                        <option value="3">2-4 servings/week</option>
+                        <option value="7">4-10 servings/week</option>
+                        <option value="10"><10 servings/week</option>
+                    </select>
+                
+                    <label><input type="checkbox" value="alcohol"> Alcohol</label>
+                    <select id="alcoholServings">
+                        <option value="3">2-4 servings/week</option>
+                        <option value="7">4-10 servings/week</option>
+                        <option value="10"><10 servings/week</option>
+                    </select>
+                
+                    <label><input type="checkbox" value="processed"> Processed Food (Ready to Eat)</label>
+                    <select id="processedServings">
+                        <option value="3">2-4 servings/week</option>
+                        <option value="7">4-10 servings/week</option>
+                        <option value="10"><10 servings/week</option>
+                    </select>
+                
+                    <label><input type="checkbox" value="soft Drinks"> Soft Drinks</label>
+                    <select id="softDrinksServings">
+                        <option value="3">2-4 servings/week</option>
+                        <option value="7">4-10 servings/week</option>
+                        <option value="10"><10 servings/week</option>
+                    </select>
+                    <label><input type="checkbox" value="caffeine">Caffeinated drinking</label>
+                    <select id="caffeineServings">
+                        <option value="3">2-4 servings/week</option>
+                        <option value="7">4-10 servings/week</option>
+                        <option value="10"><10 servings/week</option>
+                    </select>
+                </div>
+
+                <label>Activity Level:</label>
+                <select id="activityLevel" required>
+                    <option value="">Select Activity Level</option>
+                    <option value="1.2">Sedentary (little or no exercise)</option>
+                    <option value="1.375">Lightly Active (light exercise/sports 1-3 days/week)</option>
+                    <option value="1.55">Moderately Active (moderate exercise/sports 3-5 days/week)</option>
+                    <option value="1.725">Very Active (hard exercise/sports 6-7 days/week)</option>
+                    <option value="1.9">Extra Active (very hard exercise/sports & physical job)</option>
+                </select>
+                <div id="activityLevelError" class="error"></div>
+
+                <h3>So Sleepy</h3>
+                <label>Gotta Sleep (Bedtime):</label>
+                <input type="time" id="bedtime" required>
+                <div id="bedtimeError" class="error"></div>
+
+                <label>Rise and Shine (Wake-up Time):</label>
+                <input type="time" id="wakeTime" required>
+                <div id="wakeTimeError" class="error"></div>
+
+                <h3>Water Intake</h3>
+                <label>Daily Water Intake (Average Liters/day):</label>
+                <input type="number" id="waterIntake" step="0.1" placeholder="Enter water intake" required>
+                <div id="waterIntakeError" class="error"></div>
+
+                <button type="button" onclick="validateAndAnalyze()">Get Results</button>
+
+                <div id="loadingGif" style="display: none;">
+                    <img src="https://www.neelkanthhospitalpatna.com/wp-content/uploads/2022/07/image_processing20210217-5094-11l9lea.gif" alt="Loading..." style="width: 250px; height: 200px;">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="resultContainer">
+            <!-- Voice button added here (outside chatbot, inside result container) -->
+            <button id="responseVoiceToggle" title="Toggle Voice" 
+                    style="background: #4CAF50; color: white; border: none; padding: 8px 15px; 
+                           border-radius: 4px; cursor: pointer; margin-bottom: 10px; display: none;">
+                🔊 Speak Results
+            </button>
+            
+            <div id="results"></div>
+            !-- Saara Chatbot -->
+        <div id="saaraChatbot" style="display: none;">
+            <div class="chat-header">
+                <img src="https://www.godaddy.com/resources/in/wp-content/uploads/sites/13/2024/07/ai-logo-design-bird-iteration-4-1024x1024-1.webp?size=1024x1024" alt="Saara" class="bot-icon">
+                <h3>Saara - Your Health Assistant</h3>
+            </div>
+            <div id="chatbotMessages" class="chat-messages"></div>
+            <div class="chat-input">
+                <input type="text" id="userQuery" placeholder="Ask Saara about your symptoms...">
+                <button onclick="askSaara()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Voice function for results only
+        document.addEventListener('DOMContentLoaded', function() {
+            const voiceBtn = document.getElementById('responseVoiceToggle');
+            
+            voiceBtn.addEventListener('click', function() {
+                const resultsText = document.getElementById('results').textContent;
+                if (speechSynthesis.speaking) {
+                    speechSynthesis.cancel();
+                    voiceBtn.textContent = "🔊 Speak Results";
+                } else if (resultsText.trim() !== '') {
+                    speak(resultsText);
+                    voiceBtn.textContent = "🔇 Stop";
+                }
+            });
+            
+            function speak(text) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 0.9;
+                utterance.pitch = 1.2; // Higher pitch for more feminine voice
+                
+                // Get all available voices
+                const voices = speechSynthesis.getVoices();
+                
+                // Prioritize female voices in this order:
+                const preferredFemaleVoices = [
+                    'Microsoft Zira Desktop - English (United States)',
+                    'Google UK English Female',
+                    'Google US English Female',
+                    'Microsoft Hazel Desktop - English (Great Britain)',
+                    'Karen', // macOS Australian female
+                    'Samantha', // macOS US female
+                    'Tessa', // macOS South African female
+                    'Veena', // macOS Indian English female
+                    'Fiona' // macOS Scottish female
+                ];
+                
+                // Find the first available preferred female voice
+                let femaleVoice = null;
+                for (const voiceName of preferredFemaleVoices) {
+                    femaleVoice = voices.find(voice => voice.name === voiceName);
+                    if (femaleVoice) break;
+                }
+                
+                // If no preferred voice found, look for any female voice
+                if (!femaleVoice) {
+                    femaleVoice = voices.find(voice => 
+                        voice.name.toLowerCase().includes('female') || 
+                        voice.lang.includes('en-US') || 
+                        voice.lang.includes('en-GB')
+                    );
+                }
+                
+                // Apply the female voice if found
+                if (femaleVoice) {
+                    utterance.voice = femaleVoice;
+                }
+                
+                speechSynthesis.speak(utterance);
+                
+                utterance.onend = function() {
+                    voiceBtn.textContent = "🔊 Speak Results";
+                };
+            }
+            
+            // Load voices when they become available
+            if (speechSynthesis.onvoiceschanged !== undefined) {
+                speechSynthesis.onvoiceschanged = function() {
+                    // This ensures voices are loaded
+                };
+            }
+            
+            // Show/hide button when results appear
+            const observer = new MutationObserver(function(mutations) {
+                const hasResults = document.getElementById('results').textContent.trim() !== '';
+                voiceBtn.style.display = hasResults ? 'block' : 'none';
+            });
+            observer.observe(document.getElementById('results'), { childList: true, subtree: true });
+        });
+    </script>
+
+    
+    <!-- Corrected order -->
+<script src="analysis.js"></script>
+<script src="specialized.js"></script>
+<script src="chatbot.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

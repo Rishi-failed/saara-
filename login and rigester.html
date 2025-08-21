@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Registration & Login</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(-45deg, #6e8efb, #a777e3, #43cea2, #185a9d);
+      background-size: 400% 400%;
+      animation: bgGradient 12s ease infinite;
+      overflow: hidden;
+    }
+
+    @keyframes bgGradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 20px;
+      padding: 40px 30px;
+      width: 360px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+      color: #fff;
+      animation: fadeIn 0.8s ease-in-out;
+      transform: scale(0.98);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .container:hover {
+      transform: scale(1);
+      box-shadow: 0 12px 45px rgba(0,0,0,0.3);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .input-group {
+      position: relative;
+      margin: 18px 0;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 14px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      outline: none;
+      font-size: 15px;
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      transition: 0.3s ease;
+    }
+
+    .input-group label {
+      position: absolute;
+      top: 50%;
+      left: 12px;
+      transform: translateY(-50%);
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+      pointer-events: none;
+      transition: 0.3s ease;
+    }
+
+    .input-group input:focus {
+      border-color: #00e0ff;
+      background: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 0 12px #00e0ff80;
+    }
+
+    .input-group input:focus + label,
+    .input-group input:not(:placeholder-shown) + label {
+      top: 0;
+      font-size: 12px;
+      color: #00e0ff;
+      background: rgba(0,0,0,0.5);
+      padding: 0 6px;
+      border-radius: 5px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 20px;
+      background: linear-gradient(135deg, #43cea2, #185a9d);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease, background 0.3s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(135deg, #2bc0e4, #eaecc6);
+      color: #000;
+    }
+
+    button.loading {
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    button.loading::after {
+      content: "";
+      width: 20px;
+      height: 20px;
+      border: 3px solid white;
+      border-top: 3px solid transparent;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    .toggle {
+      text-align: center;
+      margin-top: 16px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 500;
+      color: #00e0ff;
+      transition: color 0.3s ease;
+    }
+
+    .toggle:hover {
+      color: #ffed4b;
+    }
+
+    .msg {
+      text-align: center;
+      margin-top: 14px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: opacity 0.3s ease;
+    }
+
+    .msg.error {
+      animation: shake 0.4s;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      50% { transform: translateX(6px); }
+      75% { transform: translateX(-4px); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px) scale(0.95);}
+      to { opacity: 1; transform: translateY(0) scale(1);}
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" id="form-container">
+  <h2 id="form-title">Register</h2>
+
+  <div class="input-group">
+    <input type="text" id="username" required placeholder=" ">
+    <label for="username">Username</label>
+  </div>
+
+  <div class="input-group">
+    <input type="email" id="email" required placeholder=" ">
+    <label for="email">Email</label>
+  </div>
+
+  <div class="input-group">
+  <input type="password" id="password" required placeholder=" ">
+  <label for="password">Password</label>
+</div>
+
+<!-- Confirm Password (only for Register) -->
+<div class="input-group" id="confirm-group" style="display:none;">
+  <input type="password" id="confirm-password" required placeholder=" ">
+  <label for="confirm-password">Confirm Password</label>
+</div>
+
+
+  <button id="submit-btn">Register</button>
+  <div class="toggle" id="toggle-form">Already have an account? Login</div>
+  <div class="msg" id="msg"></div>
+</div>
+
+<script>
+  let isLogin = false;
+
+  const formTitle = document.getElementById("form-title");
+  const submitBtn = document.getElementById("submit-btn");
+  const toggleForm = document.getElementById("toggle-form");
+  const msgBox = document.getElementById("msg");
+  const confirmGroup = document.getElementById("confirm-group");
+
+  toggleForm.addEventListener("click", () => {
+    isLogin = !isLogin;
+    formTitle.textContent = isLogin ? "Login" : "Register";
+    submitBtn.textContent = isLogin ? "Login" : "Register";
+    toggleForm.textContent = isLogin ? "Don't have an account? Register" : "Already have an account? Login";
+    confirmGroup.style.display = isLogin ? "none" : "block";
+    msgBox.style.opacity = "0";
+    setTimeout(()=> msgBox.textContent="",300);
+  });
+
+  submitBtn.addEventListener("click", () => {
+    const username = document.getElementById("username").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const cpassword = document.getElementById("confirm-password").value.trim();
+
+    if (!username || !email || !password || (!isLogin && !cpassword)) {
+      showMsg("⚠ Please fill in all fields.","yellow", true);
+      return;
+    }
+
+    if (!isLogin && password !== cpassword) {
+      showMsg("⚠ Passwords do not match!","red", true);
+      return;
+    }
+
+    const userData = { email, password: btoa(password) };
+
+    if (isLogin) {
+      const stored = JSON.parse(localStorage.getItem(username));
+      if (stored && stored.password === btoa(password)) {
+        showMsg("✅ Login successful! Redirecting...","lightgreen");
+        submitBtn.classList.add("loading");
+        setTimeout(()=> window.location.href="dashboard.html",1500);
+      } else {
+        showMsg("❌ Invalid username or password.","red", true);
+      }
+    } else {
+      if (localStorage.getItem(username)) {
+        showMsg("⚠ Username already exists.","orange", true);
+      } else {
+        localStorage.setItem(username, JSON.stringify(userData));
+        showMsg("✅ Registration successful! Please login.","lightgreen");
+        isLogin = true;
+        formTitle.textContent = "Login";
+        submitBtn.textContent = "Login";
+        toggleForm.textContent = "Don't have an account? Register";
+        confirmGroup.style.display = "none";
+      }
+    }
+  });
+
+  function showMsg(text,color,shake=false){
+    msgBox.textContent=text;
+    msgBox.style.color=color;
+    msgBox.style.opacity="1";
+    msgBox.classList.remove("error");
+    if(shake) {
+      void msgBox.offsetWidth; // restart animation
+      msgBox.classList.add("error");
+    }
+  }
+</script>
+
+</body>
+</html>
