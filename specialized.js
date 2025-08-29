@@ -60,6 +60,41 @@ function analyzeStomachIssues(query, healthData) {
     
     return analysis;
 }
+// Gemini API call example
+async function callGeminiAPI(promptText) {
+    const apiKey = 'AIzaSyCHRhKRdpK2FErXOrfDksJhlS7_OYWd5j4'; // Replace with your actual Gemini API key
+    const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
+    const body = {
+        contents: [
+            {
+                parts: [
+                    { text: promptText }
+                ]
+            }
+        ]
+    };
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-goog-api-key': apiKey
+            },
+            body: JSON.stringify(body)
+        });
+        if (!response.ok) {
+            throw new Error('API request failed: ' + response.status);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Gemini API error:', error);
+        return null;
+    }
+}
+
+// Example usage:
+// callGeminiAPI('Explain how AI works in a few words').then(console.log);
 
 function analyzeFatigue(query, healthData) {
     let analysis = `

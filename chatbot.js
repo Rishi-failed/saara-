@@ -1,10 +1,54 @@
+async function askSaara() {
+    const userQuery = document.getElementById("userQuery").value.trim();
+    if (!userQuery) return;
+
+    addUserMessage(userQuery);
+    document.getElementById("userQuery").value = "";
+
+    // Add typing indicator
+    const typingIndicator = document.createElement("div");
+    typingIndicator.id = "typing-indicator";
+    typingIndicator.classList.add("chatbot-message", "bot-message");
+    typingIndicator.textContent = "Saara is thinking...";
+    document.getElementById("chatbotMessages").appendChild(typingIndicator);
+
+    try {
+        // 🔹 Step 1: Call Gemini API
+        const geminiResponse = await callGeminiAPI(userQuery);
+
+        // Extract text
+        let reply = geminiResponse?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+        // 🔹 Step 2: If Gemini gives nothing OR vague reply, fallback to health rules
+        if (!reply || reply.trim() === "" || reply.includes("SORRY")) {
+            reply = generateSaaraResponse(userQuery);
+        }
+
+        // Remove typing indicator
+        document.getElementById("typing-indicator").remove();
+
+        addBotMessage(reply);
+
+    } catch (err) {
+        console.error("Gemini API error:", err);
+
+        // Remove typing indicator
+        const indicator = document.getElementById("typing-indicator");
+        if (indicator) indicator.remove();
+
+        // Fallback to rule-based response
+        const fallback = generateSaaraResponse(userQuery);
+        addBotMessage(fallback || "⚠ I couldn't process your request.");
+    }
+}
+
 let conversationHistory = [];
 
 function showSaaraChatbot() {
     document.getElementById("saaraChatbot").style.display = "block";
     const healthData = getUserHealthData();
     const greeting = `Hello ${healthData.name}! I'm Saara, your health assistant. ` +
-                    'Describe your symptomes and I will gide you '
+                    'Describe your symptoms and I will guide you. How are you feeling today?'
     
     addBotMessage(greeting);
 }
@@ -65,37 +109,10 @@ function addMessage(sender, message) {
 
 function addBotMessage(message) {
     addMessage("bot", message);
-    // Voice functionality is handled by the HTML implementation
 }
 
 function addUserMessage(message) {
     addMessage("user", message);
-}
-
-function askSaara() {
-    const userQuery = document.getElementById("userQuery").value.trim();
-    if (!userQuery) return;
-    
-    addUserMessage(userQuery);
-    document.getElementById("userQuery").value = "";
-    
-    // Add typing indicator
-    const typingIndicator = document.createElement("div");
-    typingIndicator.id = "typing-indicator";
-    typingIndicator.classList.add("chatbot-message", "bot-message");
-    typingIndicator.textContent = "Saara is analyzing your question...";
-    document.getElementById("chatbotMessages").appendChild(typingIndicator);
-    
-    setTimeout(() => {
-        // Remove typing indicator if it still exists
-        const indicator = document.getElementById("typing-indicator");
-        if (indicator) {
-            indicator.remove();
-        }
-        
-        const response = generateSaaraResponse(userQuery);
-        addBotMessage(response);
-    }, 1500);
 }
 
 function generateSaaraResponse(query) {
@@ -107,7 +124,7 @@ function generateSaaraResponse(query) {
         query.includes("bloat") || query.includes("nausea") || query.includes("heartburn") ||
         query.includes("gastric") || query.includes("indigestion") || query.includes("constipation") ||
         query.includes("diarrhea") || query.includes("vomit") || query.includes("acid reflux") ||
-        query.includes("ulcer") || query.includes("cramp") || query.includes("loose motion")) {
+        query.includes("ulcer") || query.includes("loose motion")) {
         return analyzeStomachIssues(query, healthData);
     }
     // Fatigue/Energy Issues
@@ -133,7 +150,7 @@ function generateSaaraResponse(query) {
     }
     // Fever
     else if (query.includes("fever") || query.includes("high temperature") || query.includes("febrile") || 
-             (query.includes("hot") && query.includes("body")) || query.includes("chills") ||
+             query.includes("hot") || query.includes("body") || query.includes("chills") ||
              query.includes("temperature") || query.includes("sweating") || query.includes("shivering") ||
              query.includes("body heat") || query.includes("feverish")) {
         return analyzeFever(query, healthData);
@@ -145,55 +162,15 @@ function generateSaaraResponse(query) {
              query.includes("sprain") || query.includes("tendon") || query.includes("bone pain")) {
         return analyzeJointPain(query, healthData);
     }
-    // Throat Pain
-    else if (query.includes("throat") || query.includes("sore throat") || query.includes("swallow") || 
-             query.includes("laryng") || query.includes("tonsil") || query.includes("pharyngitis") ||
-             query.includes("difficulty swallowing") || query.includes("scratchy throat") ||
-             query.includes("throat infection") || query.includes("dry throat")) {
-        return analyzeThroatPain(query, healthData);
-    }
-    // Breathing Issues
-    else if (query.includes("breath") || query.includes("wheeze") || query.includes("asthma") || 
-             query.includes("shortness") || (query.includes("cough") && !query.includes("head")) ||
-             query.includes("difficulty breathing") || query.includes("chest tightness") ||
-             query.includes("respiratory") || query.includes("breathing problem") ||
-             query.includes("gasping") || query.includes("trouble breathing")) {
-        return analyzeBreathingIssues(query, healthData);
-    }
-    else if (query.includes("heart") || query.includes("chest") || query.includes("cardio") || 
-             query.includes("palpitat") || query.includes("blood pressure") || query.includes("heartbeat") ||
-             query.includes("angina") || query.includes("heart pain") || query.includes("chest pain") ||
-             query.includes("arrhythmia") || query.includes("heart attack")) {
-        return analyzeHeartIssues(query, healthData);
-    }
-    else if (query.includes("dizz") || query.includes("vertigo") || query.includes("lightheaded") || 
-        query.includes("woozy") || query.includes("spinning") || query.includes("unsteady") ||
-        query.includes("faint") || query.includes("balance") || query.includes("unstable") ||
-        query.includes("dizzy spell") || query.includes("loss of balance")) {
-    return analyzeDizziness(query, healthData);
-}
-else if (query.includes("food") || query.includes("poison") || (query.includes("vomiting") || query.includes("passion") || 
-        query.includes("diarrhoea") || query.includes("lose motation") || query.includes("eat") ||
-        query.includes("poisoning") || query.includes("allergy") || query.includes("intolerance") ||
-        query.includes("bad food") || query.includes("contaminated") || query.includes("food sickness"))) {
-    return analyzeFoodPassion(query, healthData);
-}
-else if (query.includes("ok") || query.includes("thank you") || query.includes("good bye") || 
+    // Thank you/Goodbye
+    else if (query.includes("ok") || query.includes("thank you") || query.includes("good bye") || 
         query.includes("see you") || query.includes("good") || query.includes("bye") ||
         query.includes("thanks") || query.includes("appreciate") || query.includes("grateful") ||
         query.includes("cheers") || query.includes("take care") || query.includes("later")) {
-    return analyzeThankyou(query, healthData);
-}
-else if (query.includes("skin") || query.includes("rash") || query.includes("acne") || 
-             query.includes("eczema") || query.includes("dermatitis") || query.includes("itch") ||
-             query.includes("psoriasis") || query.includes("hives") || query.includes("redness") ||
-             query.includes("skin allergy") || query.includes("dry skin") || query.includes("skin infection")) {
-        return analyzeSkinIssues(query, healthData);
+        return analyzeThankYou(query, healthData);
     }
     // General Health Advice
     else {
-        return "I am SORRY , currently i can't answer your query,I will improve myself in future"+
-               "So If you don't mind can you aks a different query ";
+        return `I understand you're asking about "${query}". Based on your health profile, I recommend consulting with a healthcare professional for personalized advice. In the meantime, ensure you're getting adequate sleep (${healthData.sleepDuration} hours currently), staying hydrated (${healthData.waterIntake}L daily), and maintaining a balanced diet. Is there a specific symptom you'd like me to help analyze?`;
     }
-    
 }
